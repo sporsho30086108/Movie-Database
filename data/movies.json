@@ -1,0 +1,7 @@
+[
+    { "id": 1, "title": "Inception", "releaseYear": 2010, "genre": "Sci-Fi", "director": "Christopher Nolan" },
+    { "id": 2, "title": "Titanic", "releaseYear": 1997, "genre": "Drama", "director": "James Cameron" },
+    { "id": 3, "title": "Titanic", "releaseYear": 1997, "genre": "Drama", "director": "James Cameron" },
+    { "id": 4, "title": "Titanic", "releaseYear": 1997, "genre": "Drama", "director": "James Cameron" }
+  ]
+  
