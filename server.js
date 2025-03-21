@@ -1,10 +1,38 @@
-// const express = require('express');
-// const movieRoutes = require('./routes/movie.routes');
+const express = require('express');
+const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const cors = require('cors');
+const http = require('http'); // ✅ Add this to create an HTTP server
+require('dotenv').config();
 
-// const app = express();
-// app.use(express.json());
+// Initialize Express app
+const app = express();
+app.use(cors());
+app.use(express.json());
 
-// app.use('/api/movies', movieRoutes);
+// MongoDB Connection
+const MONGO_URI = process.env.NODE_ENV === "test"
+    ? "mongodb://localhost:27017/test_moviesdb"
+    : process.env.MONGO_URI || "your_default_mongo_uri_here";
 
-// const PORT = 5000;
-// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+mongoose.connect(MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log("✅ Connected to MongoDB"))
+.catch((err) => console.error("❌ MongoDB Connection Error:", err));
+
+// Start the Server
+const PORT = process.env.PORT || 8001;
+
+// ✅ Create an HTTP server and export it
+const server = http.createServer(app);
+
+// Prevent starting the server in test mode
+if (process.env.NODE_ENV !== "test") {
+  server.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+}
+
+// ✅ Export both `app` and `server` for testing
+module.exports = { app, server };
