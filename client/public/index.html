@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USW MovieVerse - Your Movie Database</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #e75c71;
+            --secondary: #fe9bc4;
+            --dark: #362d2f;
+            --light: #f5f6fa;
+            --success: #00b894;
+            --danger: #d63031;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+        
+        .auth-buttons .btn {
+            margin-left: 10px;
+        }
+        
+        /* Button Styles */
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid white;
+            color: white;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        /* Auth Forms */
+        .auth-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(1, 0, 0, 0.1);
+        }
+        
+        .auth-container h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--primary);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+        }
+        
+        .btn-block {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+        }
+        
+        /* Movie Cards */
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+        
+        .movie-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .movie-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .movie-poster {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+        
+        .movie-info {
+            padding: 20px;
+        }
+        
+        .movie-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        .movie-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            color: #666;
+        }
+        
+        .movie-rating {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .movie-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .movie-actions .btn {
+            flex: 1;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            margin-top: 50px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            nav {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .auth-buttons {
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">USW MovieVerse</a>
+                <div class="nav-links">
+                    <a href="/">Home</a>
+                    <a href="/movies">Movies</a>
+                    <a href="/about">About</a>
+                </div>
+                <div class="auth-buttons">
+                    <button class="btn btn-outline">Login</button>
+                    <button class="btn btn-primary">Register</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Welcome to USW MovieVerse</h1>
+            <p>Discover, rate, and save your favorite movies. Join our community of movie enthusiasts today!</p>
+            <button class="btn btn-primary">Explore Movies</button>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Login Form (Hidden by default, shown when login button clicked) -->
+        <div class="auth-container" id="login-form" style="display: none;">
+            <h2>Login to Your Account</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" class="form-control" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" class="form-control" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+                <p style="text-align: center; margin-top: 15px;">
+                    Don't have an account? <a href="#" id="show-register">Register here</a>
+                </p>
+            </form>
+        </div>
+
+        <!-- Register Form (Hidden by default, shown when register button clicked) -->
+        <div class="auth-container" id="register-form" style="display: none;">
+            <h2>Create New Account</h2>
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="register-name">Full Name</label>
+                    <input type="text" id="register-name" class="form-control" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" class="form-control" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" class="form-control" placeholder="Create a password" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-confirm">Confirm Password</label>
+                    <input type="password" id="register-confirm" class="form-control" placeholder="Confirm your password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Register</button>
+                <p style="text-align: center; margin-top: 15px;">
+                    Already have an account? <a href="#" id="show-login">Login here</a>
+                </p>
+            </form>
+        </div>
+
+        <!-- Movies Section -->
+        <section id="movies-section">
+            <h2 style="margin-top: 50px; text-align: center;">Featured Movies</h2>
+            <div class="movies-grid">
+                <!-- Movie Card 1 -->
+                <div class="movie-card">
+                    <img src="https://via.placeholder.com/300x450" alt="Movie Poster" class="movie-poster">
+                    <div class="movie-info">
+                        <h3 class="movie-title">Inception</h3>
+                        <div class="movie-meta">
+                            <span>2010</span>
+                            <span class="movie-rating">8.8 ★</span>
+                        </div>
+                        <p>A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.</p>
+                        <div class="movie-actions">
+                            <button class="btn btn-primary">Details</button>
+                            <button class="btn btn-outline">+ Watchlist</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Movie Card 2 -->
+                <div class="movie-card">
+                    <img src="https://via.placeholder.com/300x450" alt="Movie Poster" class="movie-poster">
+                    <div class="movie-info">
+                        <h3 class="movie-title">The Shawshank Redemption</h3>
+                        <div class="movie-meta">
+                            <span>1994</span>
+                            <span class="movie-rating">9.3 ★</span>
+                        </div>
+                        <p>Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.</p>
+                        <div class="movie-actions">
+                            <button class="btn btn-primary">Details</button>
+                            <button class="btn btn-outline">+ Watchlist</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Movie Card 3 -->
+                <div class="movie-card">
+                    <img src="https://via.placeholder.com/300x450" alt="Movie Poster" class="movie-poster">
+                    <div class="movie-info">
+                        <h3 class="movie-title">The Dark Knight</h3>
+                        <div class="movie-meta">
+                            <span>2008</span>
+                            <span class="movie-rating">9.0 ★</span>
+                        </div>
+                        <p>When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.</p>
+                        <div class="movie-actions">
+                            <button class="btn btn-primary">Details</button>
+                            <button class="btn btn-outline">+ Watchlist</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 USW MovieVerse. All rights reserved...</p>
+            <div style="margin-top: 20px;">
+                <a href="#" style="color: white; margin: 0 10px;"><i class="fab fa-facebook"></i></a>
+                <a href="#" style="color: white; margin: 0 10px;"><i class="fab fa-twitter"></i></a>
+                <a href="#" style="color: white; margin: 0 10px;"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple form toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginBtn = document.querySelector('.auth-buttons .btn-outline');
+            const registerBtn = document.querySelector('.auth-buttons .btn-primary');
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            const showLogin = document.getElementById('show-login');
+            const showRegister = document.getElementById('show-register');
+            const moviesSection = document.getElementById('movies-section');
+
+            // Show login form
+            loginBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                loginForm.style.display = 'block';
+                registerForm.style.display = 'none';
+                moviesSection.style.display = 'none';
+            });
+
+            // Show register form
+            registerBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                registerForm.style.display = 'block';
+                loginForm.style.display = 'none';
+                moviesSection.style.display = 'none';
+            });
+
+            // Toggle between forms
+            showLogin.addEventListener('click', function(e) {
+                e.preventDefault();
+                loginForm.style.display = 'block';
+                registerForm.style.display = 'none';
+            });
+
+            showRegister.addEventListener('click', function(e) {
+                e.preventDefault();
+                registerForm.style.display = 'block';
+                loginForm.style.display = 'none';
+            });
+
+            // Form submission (would be connected to your backend in a real app)
+            document.getElementById('login-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Login functionality would connect to your backend');
+            });
+
+            document.getElementById('register-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Registration functionality would connect to your backend');
+            });
+        });
+    </script>
+</body>
+</html>
